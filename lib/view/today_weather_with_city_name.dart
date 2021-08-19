@@ -8,12 +8,13 @@ import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/models/city_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/p_icons.dart';
-import 'package:weather/view/search_screen.dart';
+import 'package:weather/view/main_page.dart';
 import 'package:weather/wind_icons.dart';
 
 class TodayWeatherWithCityName extends StatefulWidget {
 
   final String cityName;
+
   TodayWeatherWithCityName(this.cityName);
 
   @override
@@ -37,6 +38,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
 
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state){
       if (state is WeatherLoadingState){
+        print('11111111111');
         return Center();
       }
       if (state is WeatherIsLoadedState){
@@ -326,7 +328,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                           citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => SearchScreen()));
+                              MaterialPageRoute(builder: (context) => MainPage()));
                         },
                       )
                     ],

@@ -20,7 +20,7 @@ class WeatherState extends Equatable {
 class FetchWeatherWithCityNameEvent extends WeatherEvent{
   final String cityName;
 
-  FetchWeatherWithCityNameEvent(this.cityName);
+    FetchWeatherWithCityNameEvent(this.cityName);
 
   @override
   List<Object> get props => [cityName];

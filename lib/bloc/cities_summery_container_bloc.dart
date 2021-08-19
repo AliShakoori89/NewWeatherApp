@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/models/city_model.dart';
+import 'package:weather/models/weather_model.dart';
+import 'package:weather/networking/http_exception.dart';
 import 'package:weather/repositories/weather_repository.dart';
 
 class CitiesWeathersSummeryEvent extends Equatable {
@@ -13,6 +15,18 @@ class CitiesWeathersSummeryState extends Equatable {
   @override
 
   List<Object> get props => throw[];
+}
+
+class UpdateCitiesWeathersSummeryIsLoadedState extends CitiesWeathersSummeryState{
+  final WeatherModel _weather;
+
+  UpdateCitiesWeathersSummeryIsLoadedState(this._weather);
+
+  WeatherModel get getWeather => _weather;
+
+
+  @override
+  List<Object> get props => [_weather];
 }
 
 class CitiesWeathersSummeryIsLoadedState extends CitiesWeathersSummeryState {
@@ -41,6 +55,15 @@ class SaveCityWeathersEvent extends CitiesWeathersSummeryEvent{
 
 class FetchAllDataEvent extends CitiesWeathersSummeryEvent{}
 
+class FetchWeatherWithCityNameForUpdateEvent extends CitiesWeathersSummeryEvent{
+  final String cityName;
+
+  FetchWeatherWithCityNameForUpdateEvent(this.cityName);
+
+  @override
+  List<Object> get props => [cityName];
+}
+
 class DeleteCityForWeatherEvent extends CitiesWeathersSummeryEvent {
   final String cityName;
 
@@ -51,12 +74,19 @@ class DeleteCityForWeatherEvent extends CitiesWeathersSummeryEvent {
 }
 
 class UpdateCityWeatherEvent extends CitiesWeathersSummeryEvent{
-  final CityModel cityModel;
+  final CityModel cityWeathers;
 
-  UpdateCityWeatherEvent(this.cityModel);
+  UpdateCityWeatherEvent(this.cityWeathers);
 
   @override
-  List<Object> get props => [cityModel];
+  List<Object> get props => [cityWeathers];
+}
+
+class WeatherError extends CitiesWeathersSummeryState {
+  final int errorCode;
+
+  WeatherError(this.errorCode);
+
 }
 
 
@@ -81,8 +111,38 @@ class CitiesWeathersSummeryBloc extends Bloc<CitiesWeathersSummeryEvent, CitiesW
       List<CityModel> citiesWeather = await weatherRepository.fetchAllDataCityWeatherRepo();
       yield CitiesWeathersSummeryIsLoadedState(citiesWeather);
     }
+
     if (event is UpdateCityWeatherEvent) {
-      await weatherRepository.updateCityWeatherRepo(event.cityModel);
+      print(event.cityWeathers);
+      await weatherRepository.updateCityWeatherRepo(event.cityWeathers);
+      yield CitiesWeathersSummeryIsLoadedState(event.cityWeathers);
+    }
+
+    if (event is FetchWeatherWithCityNameForUpdateEvent) {
+      print(1);
+      yield CitiesWeathersSummeryIsLoadingState();
+      print(2);
+      try {
+        print(3);
+        final WeatherModel weather = await weatherRepository.getWeatherWithCityName(
+          event.cityName,
+        );
+        print(4);
+       // yield UpdateCitiesWeathersSummeryIsLoadedState(weather);
+        yield CitiesWeathersSummeryIsLoadingState();
+
+        print(5);
+      } catch (exception) {
+        print(6);
+        print(exception);
+        if (exception is AppException) {
+          print(7);
+          yield WeatherError(300);
+        } else {
+          print(8);
+          yield WeatherError(500);
+        }
+      }
     }
   }
 }

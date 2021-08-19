@@ -54,22 +54,22 @@ class _CityWeatherDetailsWithNameState extends State<CityWeatherDetailsWithName>
                     SizedBox(
                       height: 20,
                     ),
-                    TodayWeatherWithCityName(cityName),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    HourlyWeekWeathersWithCityName(cityName),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    DailyWeekWeathersWithCityName(cityName),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TemperatureChartWithCityName(cityName),
-                    SizedBox(
-                        height: 20
-                    )
+                    TodayWeatherWithCityName( cityName),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // HourlyWeekWeathersWithCityName(cityName),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // DailyWeekWeathersWithCityName(cityName),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // TemperatureChartWithCityName(cityName),
+                    // SizedBox(
+                    //     height: 20
+                    // )
                   ],
                 ),
               ),

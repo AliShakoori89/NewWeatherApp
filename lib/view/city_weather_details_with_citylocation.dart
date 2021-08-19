@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:weather/bloc/search_location_bloc.dart';
 import 'package:weather/view/daily_week_weathers_with_city_location.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_location.dart';
-import 'package:weather/view/search_screen.dart';
 import 'package:weather/view/temperature_chart_with_citylocation.dart';
 import 'package:weather/view/today_weather_with_citylocation.dart';
 
@@ -89,8 +88,7 @@ class _CityWeatherDetailsWithCityLocationState extends State<CityWeatherDetailsW
                       SizedBox(
                         height: 20,
                       ),
-                      TemperatureChartWithCityLocation(lat
-                          , lon),
+                      TemperatureChartWithCityLocation(lat, lon),
                       SizedBox(
                           height: 20
                       )

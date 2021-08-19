@@ -52,6 +52,11 @@ class WeatherRepository {
     return await helper.getAllCityWeather();
   }
 
+  Future<WeatherModel> fetchAllDataCityWeatherForUpdateRepo(String cityName) async {
+    var weather = await _apiHelper.getWeatherDataWithCityName(cityName);
+    return weather;
+  }
+
   Future<Geo.Position> fetchCityLocationRepo() async{
 
     final Location location = Location();
